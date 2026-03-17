@@ -112,6 +112,24 @@ import ApiKeysManagementPage from "./pages/auth/ApiKeysManagementPage.tsx";
 import AuditLogViewerPage from "./pages/auth/AuditLogViewerPage.tsx";
 import RoleManagementPage from "./pages/auth/RoleManagementPage.tsx";
 
+// Admin/User Management Pages
+import UserDirectoryPage from "./pages/admin/UserDirectoryPage.tsx";
+import UserProfileDetailPage from "./pages/admin/UserProfileDetailPage.tsx";
+import OrganizationListPage from "./pages/admin/OrganizationListPage.tsx";
+import OrganizationDetailPage from "./pages/admin/OrganizationDetailPage.tsx";
+import OrganizationFormPage from "./pages/admin/OrganizationFormPage.tsx";
+import TenantManagementPage from "./pages/admin/TenantManagementPage.tsx";
+import InvitationManagementPage from "./pages/admin/InvitationManagementPage.tsx";
+import UserInviteFormPage from "./pages/admin/UserInviteFormPage.tsx";
+import OrganizationSettingsPage from "./pages/admin/OrganizationSettingsPage.tsx";
+import UserActivityLogPage from "./pages/admin/UserActivityLogPage.tsx";
+import OrganizationMembersPage from "./pages/admin/OrganizationMembersPage.tsx";
+import BulkUserImportPage from "./pages/admin/BulkUserImportPage.tsx";
+import UserMergeToolPage from "./pages/admin/UserMergeToolPage.tsx";
+import AccessRequestQueuePage from "./pages/admin/AccessRequestQueuePage.tsx";
+import OrganizationAnalyticsPage from "./pages/admin/OrganizationAnalyticsPage.tsx";
+import UserSelfProfilePage from "./pages/admin/UserSelfProfilePage.tsx";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -228,6 +246,25 @@ const App = () => (
           <Route path="/settings/api-keys" element={<ApiKeysManagementPage />} />
           <Route path="/settings/audit-log" element={<AuditLogViewerPage />} />
           <Route path="/admin/roles" element={<RoleManagementPage />} />
+          
+          {/* Admin/User Management Routes */}
+          <Route path="/admin/users" element={<UserDirectoryPage />} />
+          <Route path="/admin/users/:userId" element={<UserProfileDetailPage />} />
+          <Route path="/admin/organizations" element={<OrganizationListPage />} />
+          <Route path="/admin/organizations/:orgId" element={<OrganizationDetailPage />} />
+          <Route path="/admin/organizations/new" element={<OrganizationFormPage />} />
+          <Route path="/admin/organizations/:orgId/edit" element={<OrganizationFormPage />} />
+          <Route path="/admin/tenants" element={<TenantManagementPage />} />
+          <Route path="/admin/invitations" element={<InvitationManagementPage />} />
+          <Route path="/admin/invite-user" element={<UserInviteFormPage />} />
+          <Route path="/admin/organizations/:orgId/settings" element={<OrganizationSettingsPage />} />
+          <Route path="/admin/activity-log" element={<UserActivityLogPage />} />
+          <Route path="/admin/organizations/:orgId/members" element={<OrganizationMembersPage />} />
+          <Route path="/admin/users/bulk-import" element={<BulkUserImportPage />} />
+          <Route path="/admin/users/merge" element={<UserMergeToolPage />} />
+          <Route path="/admin/access-requests" element={<AccessRequestQueuePage />} />
+          <Route path="/admin/organizations/:orgId/analytics" element={<OrganizationAnalyticsPage />} />
+          <Route path="/profile" element={<UserSelfProfilePage />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
