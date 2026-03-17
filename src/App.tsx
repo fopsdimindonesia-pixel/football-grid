@@ -100,6 +100,18 @@ import GrassrootsAnalyticsPage from "./pages/grassroots/GrassrootsAnalyticsPage.
 import GrassrootsFacilityBookingPage from "./pages/grassroots/GrassrootsFacilityBookingPage.tsx";
 import GrassrootsFundingGrantsPage from "./pages/grassroots/GrassrootsFundingGrantsPage.tsx";
 
+// Auth Pages
+import LoginPage from "./pages/auth/LoginPage.tsx";
+import RegistrationPage from "./pages/auth/RegistrationPage.tsx";
+import EmailVerificationPage from "./pages/auth/EmailVerificationPage.tsx";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage.tsx";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage.tsx";
+import TwoFactorAuthSetupPage from "./pages/auth/TwoFactorAuthSetupPage.tsx";
+import ActiveSessionsPage from "./pages/auth/ActiveSessionsPage.tsx";
+import ApiKeysManagementPage from "./pages/auth/ApiKeysManagementPage.tsx";
+import AuditLogViewerPage from "./pages/auth/AuditLogViewerPage.tsx";
+import RoleManagementPage from "./pages/auth/RoleManagementPage.tsx";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -204,6 +216,18 @@ const App = () => (
           <Route path="/grassroots/analytics" element={<GrassrootsAnalyticsPage />} />
           <Route path="/grassroots/facility-booking" element={<GrassrootsFacilityBookingPage />} />
           <Route path="/grassroots/funding-grants" element={<GrassrootsFundingGrantsPage />} />
+          
+          {/* Auth Routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/verify-email" element={<EmailVerificationPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/settings/two-factor" element={<TwoFactorAuthSetupPage />} />
+          <Route path="/settings/sessions" element={<ActiveSessionsPage />} />
+          <Route path="/settings/api-keys" element={<ApiKeysManagementPage />} />
+          <Route path="/settings/audit-log" element={<AuditLogViewerPage />} />
+          <Route path="/admin/roles" element={<RoleManagementPage />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
