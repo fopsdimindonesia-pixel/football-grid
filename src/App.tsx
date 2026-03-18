@@ -130,6 +130,30 @@ import AccessRequestQueuePage from "./pages/admin/AccessRequestQueuePage.tsx";
 import OrganizationAnalyticsPage from "./pages/admin/OrganizationAnalyticsPage.tsx";
 import UserSelfProfilePage from "./pages/admin/UserSelfProfilePage.tsx";
 
+// Club Management Pages
+import ClubDashboardPage from "./pages/clubs/ClubDashboardPage.tsx";
+import ClubProfilePage from "./pages/clubs/ClubProfilePage.tsx";
+import ClubStaffDirectoryPage from "./pages/clubs/ClubStaffDirectoryPage.tsx";
+import SquadManagementPage from "./pages/clubs/SquadManagementPage.tsx";
+import ClubLicensingPage from "./pages/clubs/ClubLicensingPage.tsx";
+import ClubFinancialOverviewPage from "./pages/clubs/ClubFinancialOverviewPage.tsx";
+import ClubDocumentsPage from "./pages/clubs/ClubDocumentsPage.tsx";
+import ClubHistoryHonoursPage from "./pages/clubs/ClubHistoryHonoursPage.tsx";
+import ClubBrandingSettingsPage from "./pages/clubs/ClubBrandingSettingsPage.tsx";
+import ClubCalendarPage from "./pages/clubs/ClubCalendarPage.tsx";
+import TrainingSchedulePage from "./pages/clubs/TrainingSchedulePage.tsx";
+import ClubFacilityManagementPage from "./pages/clubs/ClubFacilityManagementPage.tsx";
+import CreateEditClubPage from "./pages/clubs/CreateEditClubPage.tsx";
+import ClubListAdminPage from "./pages/clubs/ClubListAdminPage.tsx";
+import ClubComparisonPage from "./pages/clubs/ClubComparisonPage.tsx";
+import TransferWindowManagerPage from "./pages/clubs/TransferWindowManagerPage.tsx";
+import ClubCommunicationCenterPage from "./pages/clubs/ClubCommunicationCenterPage.tsx";
+import ClubSponsorshipManagementPage from "./pages/clubs/ClubSponsorshipManagementPage.tsx";
+import ClubMatchReportsPage from "./pages/clubs/ClubMatchReportsPage.tsx";
+import ClubYouthDevelopmentPage from "./pages/clubs/ClubYouthDevelopmentPage.tsx";
+import ClubMerchandiseStoreSetupPage from "./pages/clubs/ClubMerchandiseStoreSetupPage.tsx";
+import ClubFanEngagementPage from "./pages/clubs/ClubFanEngagementPage.tsx";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -265,6 +289,30 @@ const App = () => (
           <Route path="/admin/access-requests" element={<AccessRequestQueuePage />} />
           <Route path="/admin/organizations/:orgId/analytics" element={<OrganizationAnalyticsPage />} />
           <Route path="/profile" element={<UserSelfProfilePage />} />
+          
+          {/* Club Management Routes */}
+          <Route path="/clubs" element={<ClubListAdminPage />} />
+          <Route path="/clubs/new" element={<CreateEditClubPage />} />
+          <Route path="/clubs/:clubId" element={<ClubDashboardPage />} />
+          <Route path="/clubs/:clubId/profile" element={<ClubProfilePage />} />
+          <Route path="/clubs/:clubId/staff" element={<ClubStaffDirectoryPage />} />
+          <Route path="/clubs/:clubId/squad" element={<SquadManagementPage />} />
+          <Route path="/clubs/:clubId/licensing" element={<ClubLicensingPage />} />
+          <Route path="/clubs/:clubId/financial" element={<ClubFinancialOverviewPage />} />
+          <Route path="/clubs/:clubId/documents" element={<ClubDocumentsPage />} />
+          <Route path="/clubs/:clubId/history" element={<ClubHistoryHonoursPage />} />
+          <Route path="/clubs/:clubId/branding" element={<ClubBrandingSettingsPage />} />
+          <Route path="/clubs/:clubId/calendar" element={<ClubCalendarPage />} />
+          <Route path="/clubs/:clubId/training" element={<TrainingSchedulePage />} />
+          <Route path="/clubs/:clubId/facilities" element={<ClubFacilityManagementPage />} />
+          <Route path="/clubs/:clubId/compare" element={<ClubComparisonPage />} />
+          <Route path="/clubs/:clubId/transfers" element={<TransferWindowManagerPage />} />
+          <Route path="/clubs/:clubId/communications" element={<ClubCommunicationCenterPage />} />
+          <Route path="/clubs/:clubId/sponsorships" element={<ClubSponsorshipManagementPage />} />
+          <Route path="/clubs/:clubId/match-reports" element={<ClubMatchReportsPage />} />
+          <Route path="/clubs/:clubId/youth-development" element={<ClubYouthDevelopmentPage />} />
+          <Route path="/clubs/:clubId/merchandise" element={<ClubMerchandiseStoreSetupPage />} />
+          <Route path="/clubs/:clubId/fan-engagement" element={<ClubFanEngagementPage />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
