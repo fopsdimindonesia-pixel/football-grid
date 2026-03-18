@@ -1,95 +1,214 @@
-import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Search, Plus, Edit, Trash2, Mail, Phone } from "lucide-react";
+import { useState } from 'react';
+import { Search, Plus, Eye, Pencil, Trash2, Download, RotateCcw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { StatusBadge } from '@/components/shared/StatusBadge';
 
-const UserDirectoryPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+/**
+ * UserDirectoryPage - Pattern A: List/Table
+ * Displays all platform users with filtering, search, and bulk actions
+ */
+export default function UserDirectoryPage() {
+  const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
+  // Mock data - replace with API call via userService
   const users = [
-    { id: 1, name: "John Smith", email: "john@example.com", phone: "+1 (555) 123-4567", role: "Administrator", status: "Active", joinDate: "2024-01-15" },
-    { id: 2, name: "Sarah Johnson", email: "sarah@example.com", phone: "+1 (555) 234-5678", role: "Coach", status: "Active", joinDate: "2024-02-01" },
-    { id: 3, name: "Michael Chen", email: "michael@example.com", phone: "+1 (555) 345-6789", role: "Player", status: "Inactive", joinDate: "2024-01-20" },
-    { id: 4, name: "Emma Wilson", email: "emma@example.com", phone: "+1 (555) 456-7890", role: "Referee", status: "Active", joinDate: "2024-03-01" },
-    { id: 5, name: "David Brown", email: "david@example.com", phone: "+1 (555) 567-8901", role: "Coach", status: "Active", joinDate: "2024-02-15" },
+    { id: '1', name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'active', joinDate: '2024-01-15' },
+    { id: '2', name: 'Jane Smith', email: 'jane@example.com', role: 'Manager', status: 'active', joinDate: '2024-02-10' },
+    { id: '3', name: 'Bob Wilson', email: 'bob@example.com', role: 'User', status: 'inactive', joinDate: '2024-01-20' },
+    { id: '4', name: 'Alice Brown', email: 'alice@example.com', role: 'Manager', status: 'active', joinDate: '2024-03-01' },
+    { id: '5', name: 'Charlie Davis', email: 'charlie@example.com', role: 'User', status: 'active', joinDate: '2024-03-05' },
   ];
 
-  const getStatusColor = (status: string) => {
-    if (status === "Active") return "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100";
-    return "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100";
-  };
-
-  const getRoleColor = (role: string) => {
-    switch (role) {
-      case "Administrator":
-        return "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100";
-      case "Coach":
-        return "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100";
-      case "Player":
-        return "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100";
-      case "Referee":
-        return "bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100";
-      default:
-        return "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100";
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedUsers(new Set(users.map(u => u.id)));
+    } else {
+      setSelectedUsers(new Set());
     }
   };
 
+  const handleSelectUser = (userId: string, checked: boolean) => {
+    const newSelected = new Set(selectedUsers);
+    if (checked) {
+      newSelected.add(userId);
+    } else {
+      newSelected.delete(userId);
+    }
+    setSelectedUsers(newSelected);
+  };
+
+  const totalUsers = users.length;
+  const activeUsers = users.filter(u => u.status === 'active').length;
+  const newUsers = users.filter(u => new Date(u.joinDate) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)).length;
+
   return (
-    <div className="space-y-6 pb-12">
-      <div className="flex justify-between items-center mb-8">
+    <div className="space-y-6">
+      {/* Breadcrumb */}
+      <div className="text-sm text-muted-foreground">
+        Dashboard &gt; Users & Organizations &gt; User Directory
+      </div>
+
+      {/* PAGE HEADER - Pattern A */}
+      <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">User Directory</h1>
-          <p className="text-gray-600 dark:text-gray-400">Manage system users and their roles</p>
+          <h1 className="text-3xl font-bold tracking-tight">User Directory</h1>
+          <p className="text-muted-foreground mt-2">Manage all platform users and their access permissions</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700"><Plus className="w-4 h-4 mr-2" />Add User</Button>
+        <Button className="gap-2">
+          <Plus className="w-4 h-4" />
+          Add New User
+        </Button>
       </div>
 
-      <div className="flex gap-3 mb-6">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <Input placeholder="Search users..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10 dark:bg-slate-700 dark:border-slate-600" />
-        </div>
-      </div>
-
-      <Card className="bg-white dark:bg-slate-800 border-0 dark:border-slate-700">
-        <CardContent className="pt-6">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-slate-700">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Name</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Email</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Phone</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Role</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Status</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Joined</th>
-                  <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id} className="border-b border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                    <td className="py-3 px-4 font-medium text-gray-900 dark:text-white">{user.name}</td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{user.email}</td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{user.phone}</td>
-                    <td className="py-3 px-4"><Badge className={getRoleColor(user.role)}>{user.role}</Badge></td>
-                    <td className="py-3 px-4"><Badge className={getStatusColor(user.status)}>{user.status}</Badge></td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{user.joinDate}</td>
-                    <td className="py-3 px-4 text-right flex justify-end gap-2">
-                      <Button variant="outline" size="sm"><Edit className="w-4 h-4" /></Button>
-                      <Button variant="outline" size="sm" className="text-red-600"><Trash2 className="w-4 h-4" /></Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* STATS BAR */}
+      <Card className="p-4 bg-card border">
+        <div className="flex gap-8 text-sm">
+          <div>
+            <span className="text-muted-foreground">Total Users:</span>
+            <span className="ml-2 font-semibold">{totalUsers}</span>
           </div>
-        </CardContent>
+          <div>
+            <span className="text-muted-foreground">Active:</span>
+            <span className="ml-2 font-semibold text-green-600">{activeUsers}</span>
+          </div>
+          <div>
+            <span className="text-muted-foreground">New (30 days):</span>
+            <span className="ml-2 font-semibold text-blue-600">{newUsers}</span>
+          </div>
+        </div>
       </Card>
+
+      {/* FILTER BAR - Pattern A */}
+      <div className="flex gap-3 items-center flex-wrap">
+        <div className="flex-1 min-w-[200px] relative">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input placeholder="Search users..." className="pl-10" />
+        </div>
+        <Select defaultValue="all-roles">
+          <SelectTrigger className="w-[150px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all-roles">All Roles</SelectItem>
+            <SelectItem value="admin">Admin</SelectItem>
+            <SelectItem value="manager">Manager</SelectItem>
+            <SelectItem value="user">User</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select defaultValue="all-status">
+          <SelectTrigger className="w-[150px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all-status">All Status</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
+        <Button variant="outline" size="icon">
+          <RotateCcw className="w-4 h-4" />
+        </Button>
+        <Button variant="outline" size="icon">
+          <Download className="w-4 h-4" />
+        </Button>
+      </div>
+
+      {/* TABLE - Pattern A */}
+      <Card className="overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b bg-muted/50">
+                <th className="px-4 py-3 text-left">
+                  <Checkbox
+                    checked={selectedUsers.size === users.length && users.length > 0}
+                    onCheckedChange={handleSelectAll}
+                  />
+                </th>
+                <th className="px-4 py-3 text-left font-medium">Name</th>
+                <th className="px-4 py-3 text-left font-medium">Email</th>
+                <th className="px-4 py-3 text-left font-medium">Role</th>
+                <th className="px-4 py-3 text-left font-medium">Status</th>
+                <th className="px-4 py-3 text-left font-medium">Join Date</th>
+                <th className="px-4 py-3 text-left font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id} className="border-b hover:bg-muted/50 transition-colors">
+                  <td className="px-4 py-3">
+                    <Checkbox
+                      checked={selectedUsers.has(user.id)}
+                      onCheckedChange={(checked) => handleSelectUser(user.id, checked as boolean)}
+                    />
+                  </td>
+                  <td className="px-4 py-3 font-medium">{user.name}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{user.email}</td>
+                  <td className="px-4 py-3">{user.role}</td>
+                  <td className="px-4 py-3">
+                    <StatusBadge status={user.status} />
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground text-xs">
+                    {new Date(user.joinDate).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="sm" title="View">
+                        <Eye className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" title="Edit">
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" title="Delete">
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
+      {/* PAGINATION - Pattern A */}
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-muted-foreground">
+          Showing page {currentPage} of {Math.ceil(users.length / pageSize)}
+        </span>
+        <div className="flex gap-2 items-center">
+          <Button variant="outline" size="sm" disabled={currentPage === 1}>
+            ← Prev
+          </Button>
+          <span className="text-muted-foreground">Page {currentPage}</span>
+          <Button variant="outline" size="sm" disabled={currentPage >= Math.ceil(users.length / pageSize)}>
+            Next →
+          </Button>
+          <Select defaultValue="10">
+            <SelectTrigger className="w-[70px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="25">25</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+          <span className="text-muted-foreground">per page</span>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default UserDirectoryPage;
+}

@@ -1,11 +1,101 @@
-import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Search, Plus, Edit, Trash2, Building2 } from "lucide-react";
+import { useState } from 'react';
+import { Search, Plus, Eye, Settings, Trash2, MoreVertical } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { StatusBadge } from '@/components/shared/StatusBadge';
 
-const TenantManagementPage: React.FC = () => {
+/**
+ * TenantManagementPage - Pattern A: List/Table
+ * Multi-tenant overview and management
+ * Route: /admin/tenants
+ * Access: Super Admin
+ */
+export default function TenantManagementPage() {
+  const [selectedTenants, setSelectedTenants] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const pageSize = 10;
+
+  // Mock data - replace with API call
+  const mockTenants = [
+    {
+      id: 'tenant-001',
+      name: 'PSSI Indonesia',
+      domain: 'pssi-indonesia',
+      plan: 'enterprise',
+      users: 245,
+      storage: '45.2 GB',
+      status: 'active',
+      billingStatus: 'paid',
+      monthlyFee: 'Rp 50M',
+      createdDate: '2022-01-15',
+    },
+    {
+      id: 'tenant-002',
+      name: 'FC Garuda Management',
+      domain: 'fc-garuda',
+      plan: 'professional',
+      users: 52,
+      storage: '12.8 GB',
+      status: 'active',
+      billingStatus: 'paid',
+      monthlyFee: 'Rp 10M',
+      createdDate: '2022-06-20',
+    },
+    {
+      id: 'tenant-003',
+      name: 'Youth Academy Network',
+      domain: 'youth-academy',
+      plan: 'starter',
+      users: 18,
+      storage: '2.1 GB',
+      status: 'active',
+      billingStatus: 'pending',
+      monthlyFee: 'Rp 3M',
+      createdDate: '2023-03-10',
+    },
+  ];
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedTenants(new Set(mockTenants.map(t => t.id)));
+    } else {
+      setSelectedTenants(new Set());
+    }
+  };
+
+  const handleSelectTenant = (tenantId: string, checked: boolean) => {
+    const newSelected = new Set(selectedTenants);
+    if (checked) {
+      newSelected.add(tenantId);
+    } else {
+      newSelected.delete(tenantId);
+    }
+    setSelectedTenants(newSelected);
+  };
+
+  const filteredTenants = mockTenants.filter(t =>
+    t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    t.domain.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const paginatedTenants = filteredTenants.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const totalPages = Math.ceil(filteredTenants.length / pageSize);
   const [searchTerm, setSearchTerm] = useState("");
 
   const tenants = [
