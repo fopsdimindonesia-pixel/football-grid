@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DataTable } from "@/components/shared";
+import { DataTable, PageHeader } from "@/components/shared";
 
 const TeamRegistrationManagementPage: React.FC = () => {
   const registrations = [

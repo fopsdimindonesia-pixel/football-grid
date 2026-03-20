@@ -20,54 +20,55 @@ const SquadManagementPage: React.FC = () => {
     switch (position) {
       case "Striker":
       case "Forward":
-        return "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100";
+        return "bg-destructive/10 text-destructive";
       case "Midfielder":
-        return "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100";
+        return "bg-primary/10 text-primary";
       case "Defender":
-        return "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100";
+        return "bg-secondary/10 text-secondary";
       case "Goalkeeper":
-        return "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100";
+        return "bg-accent/10 text-accent";
       default:
-        return "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100";
+        return "bg-muted text-muted-foreground";
     }
   };
+
+  const header = (
+    <div className="flex justify-between items-center mb-8">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight mb-1">Squad Management</h1>
+        <p className="text-sm text-muted-foreground">Manage team players and positions</p>
+      </div>
+      <div className="flex gap-2">
+        <Button variant={viewMode === "grid" ? "default" : "outline"} size="sm" onClick={() => setViewMode("grid")}>
+          <LayoutGrid className="w-4 h-4 mr-2" />Grid
+        </Button>
+        <Button variant={viewMode === "list" ? "default" : "outline"} size="sm" onClick={() => setViewMode("list")}>
+          <List className="w-4 h-4 mr-2" />List
+        </Button>
+        <Button><Plus className="w-4 h-4 mr-2" />Add Player</Button>
+      </div>
+    </div>
+  );
 
   if (viewMode === "grid") {
     return (
       <div className="space-y-6 pb-12">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Squad Management</h1>
-            <p className="text-gray-600 dark:text-gray-400">Manage team players and positions</p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant={viewMode === "grid" ? "default" : "outline"} size="sm" onClick={() => setViewMode("grid")}>
-              <LayoutGrid className="w-4 h-4 mr-2" />Grid
-            </Button>
-            <Button variant={viewMode === "list" ? "default" : "outline"} size="sm" onClick={() => setViewMode("list")}>
-              <List className="w-4 h-4 mr-2" />List
-            </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700"><Plus className="w-4 h-4 mr-2" />Add Player</Button>
-          </div>
-        </div>
-
+        {header}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {players.map((player) => (
-            <Card key={player.id} className="bg-white dark:bg-slate-800 border-0 dark:border-slate-700 hover:shadow-lg transition-shadow">
+            <Card key={player.id} className="hover:shadow-md transition-shadow">
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-3xl font-bold text-gray-400 dark:text-gray-600">#{player.number}</span>
-                    </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">{player.name}</h3>
+                    <span className="text-3xl font-bold text-muted-foreground/40">#{player.number}</span>
+                    <h3 className="font-semibold">{player.name}</h3>
                   </div>
                   <Badge className={getPositionColor(player.position)}>{player.position}</Badge>
                 </div>
-                <div className="space-y-2 mb-4">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Age: {player.age}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Nationality: {player.nationality}</p>
-                  <Badge className={player.status === "Active" ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100" : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100"}>
+                <div className="space-y-2 mb-4 text-sm text-muted-foreground">
+                  <p>Age: {player.age}</p>
+                  <p>Nationality: {player.nationality}</p>
+                  <Badge className={player.status === "Active" ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"}>
                     {player.status}
                   </Badge>
                 </div>
@@ -82,47 +83,32 @@ const SquadManagementPage: React.FC = () => {
 
   return (
     <div className="space-y-6 pb-12">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Squad Management</h1>
-          <p className="text-gray-600 dark:text-gray-400">Manage team players and positions</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant={viewMode === "grid" ? "default" : "outline"} size="sm" onClick={() => setViewMode("grid")}>
-            <LayoutGrid className="w-4 h-4 mr-2" />Grid
-          </Button>
-          <Button variant={viewMode === "list" ? "default" : "outline"} size="sm" onClick={() => setViewMode("list")}>
-            <List className="w-4 h-4 mr-2" />List
-          </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700"><Plus className="w-4 h-4 mr-2" />Add Player</Button>
-        </div>
-      </div>
-
-      <Card className="bg-white dark:bg-slate-800 border-0 dark:border-slate-700">
+      {header}
+      <Card>
         <CardContent className="pt-6">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-slate-700">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">#</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Name</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Position</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Nationality</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Age</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Status</th>
-                  <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300">Action</th>
+                <tr className="border-b">
+                  <th className="text-left py-3 px-4 font-semibold text-muted-foreground">#</th>
+                  <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Name</th>
+                  <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Position</th>
+                  <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Nationality</th>
+                  <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Age</th>
+                  <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Status</th>
+                  <th className="text-right py-3 px-4 font-semibold text-muted-foreground">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {players.map((player) => (
-                  <tr key={player.id} className="border-b border-gray-100 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                    <td className="py-3 px-4 font-bold text-gray-400 dark:text-gray-600">#{player.number}</td>
-                    <td className="py-3 px-4 font-medium text-gray-900 dark:text-white">{player.name}</td>
+                  <tr key={player.id} className="border-b hover:bg-muted/50">
+                    <td className="py-3 px-4 font-bold text-muted-foreground/40">#{player.number}</td>
+                    <td className="py-3 px-4 font-medium">{player.name}</td>
                     <td className="py-3 px-4"><Badge className={getPositionColor(player.position)}>{player.position}</Badge></td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{player.nationality}</td>
-                    <td className="py-3 px-4 text-gray-600 dark:text-gray-400">{player.age}</td>
+                    <td className="py-3 px-4 text-muted-foreground">{player.nationality}</td>
+                    <td className="py-3 px-4 text-muted-foreground">{player.age}</td>
                     <td className="py-3 px-4">
-                      <Badge className={player.status === "Active" ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100" : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100"}>
+                      <Badge className={player.status === "Active" ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"}>
                         {player.status}
                       </Badge>
                     </td>

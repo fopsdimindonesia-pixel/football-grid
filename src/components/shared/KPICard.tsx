@@ -5,21 +5,26 @@ interface KPICardProps {
   label: string;
   value: string;
   icon?: React.ReactNode;
+  trend?: string;
+  accent?: string;
 }
 
-export function KPICard({ label, value, icon }: KPICardProps) {
+export function KPICard({ label, value, icon, trend, accent }: KPICardProps) {
   return (
-    <Card className="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+    <Card className="border bg-card">
       <div className="p-6">
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
             {label}
           </p>
-          {icon && <div className="text-gray-600 dark:text-gray-400">{icon}</div>}
+          {icon && <div className="text-muted-foreground">{icon}</div>}
         </div>
-        <p className="text-3xl font-bold text-gray-900 dark:text-white">
+        <p className={`text-3xl font-bold tabular-nums ${accent || ""}`}>
           {value}
         </p>
+        {trend && (
+          <p className="text-xs text-muted-foreground mt-1">{trend}</p>
+        )}
       </div>
     </Card>
   );

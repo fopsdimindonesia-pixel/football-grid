@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 
-import { FilterBar } from "@/components/shared";
+import { FilterBar, PageHeader, ActionDropdown } from "@/components/shared";
 import { Plus, Grid, List, Download } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
