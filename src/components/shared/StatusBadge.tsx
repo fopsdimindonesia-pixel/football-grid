@@ -1,25 +1,27 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface StatusBadgeProps {
-  status: "active" | "inactive" | "pending" | "completed" | "error";
+  status: string;
   label?: string;
+  className?: string;
 }
 
-export function StatusBadge({ status, label }: StatusBadgeProps) {
-  const statusConfig = {
-    active: { variant: "default" as const, text: "Active" },
-    inactive: { variant: "secondary" as const, text: "Inactive" },
-    pending: { variant: "secondary" as const, text: "Pending" },
-    completed: { variant: "default" as const, text: "Completed" },
-    error: { variant: "destructive" as const, text: "Error" },
-  };
+const statusStyles: Record<string, string> = {
+  active: "bg-primary/10 text-primary border-primary/20",
+  completed: "bg-primary/10 text-primary border-primary/20",
+  inactive: "bg-muted text-muted-foreground border-border",
+  pending: "bg-accent/10 text-accent border-accent/20",
+  error: "bg-destructive/10 text-destructive border-destructive/20",
+  upcoming: "bg-secondary/10 text-secondary border-secondary/20",
+};
 
-  const config = statusConfig[status];
-
+export function StatusBadge({ status, label, className }: StatusBadgeProps) {
+  const style = statusStyles[status] || statusStyles.inactive;
   return (
-    <Badge variant={config.variant}>
-      {label || config.text}
+    <Badge variant="outline" className={cn("text-[10px] font-bold uppercase", style, className)}>
+      {label || status}
     </Badge>
   );
 }
