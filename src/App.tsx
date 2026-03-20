@@ -72,7 +72,7 @@ import CompetitionMediaCenterPage from "./pages/competitions/CompetitionMediaCen
 import CompetitionPlayerRegistrationPage from "./pages/competitions/CompetitionPlayerRegistrationPage.tsx";
 import CompetitionProtestManagementPage from "./pages/competitions/CompetitionProtestManagementPage.tsx";
 import CompetitionRulesEditorPage from "./pages/competitions/CompetitionRulesEditorPage.tsx";
-import CompetitionScoutingPage2 from "./pages/competitions/CompetitionScoutingPage.tsx";
+
 import CompetitionSponsorManagementPage from "./pages/competitions/CompetitionSponsorManagementPage.tsx";
 import GroupStageManagerPage from "./pages/competitions/GroupStageManagerPage.tsx";
 import KnockoutBracketPage from "./pages/competitions/KnockoutBracketPage.tsx";
