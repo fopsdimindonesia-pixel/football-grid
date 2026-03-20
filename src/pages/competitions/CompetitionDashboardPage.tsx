@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 
-import { KPICard, DataTable, TabNavigation } from "@/components/shared";
+import { KPICard, PageHeader, DataTable, TabNavigation } from "@/components/shared";
 import {
   Activity,
   Calendar,

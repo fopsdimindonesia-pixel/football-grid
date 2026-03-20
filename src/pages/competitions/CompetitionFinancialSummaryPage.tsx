@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 
-import { KPICard } from "@/components/shared";
+import { KPICard, PageHeader } from "@/components/shared";
 import { Card, CardContent } from "@/components/ui/card";
 
 const CompetitionFinancialSummaryPage: React.FC = () => {

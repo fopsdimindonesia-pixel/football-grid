@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { ProfileHeader, StatusBadge } from "@/components/shared";
+import { ProfileHeader, StatusBadge, PageHeader } from "@/components/shared";
 import {
   Edit2,
   Share2,
