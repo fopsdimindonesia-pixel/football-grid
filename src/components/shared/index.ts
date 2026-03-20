@@ -5,3 +5,5 @@ export { FormStepper } from "./FormStepper";
 export { ProfileHeader } from "./ProfileHeader";
 export { StatusBadge } from "./StatusBadge";
 export { TabNavigation } from "./TabNavigation";
+export { PageHeader } from "./PageHeader";
+export { ActionDropdown } from "./ActionDropdown";
